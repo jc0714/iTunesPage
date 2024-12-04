@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainViewController: UIViewController {
 
     private let tableView = UITableView()
     private var viewModel = MainPageViewModel()
@@ -64,6 +64,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.allowsSelection = false
 
         tableView.register(SongsTableViewCell.self, forCellReuseIdentifier: SongsTableViewCell.identifier)
         tableView.register(AlbumTableViewCell.self, forCellReuseIdentifier: AlbumTableViewCell.identifier)
@@ -82,8 +83,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         present(alert, animated: true)
     }
 
-    // MARK: - UITableViewDataSource
+    private func indexPathForSection(_ section: Int) -> IndexPath? {
+        return IndexPath(row: 0, section: section)
+    }
+}
 
+// MARK: - UITableViewDataSource
+
+extension MainViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -93,28 +100,37 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: SongsTableViewCell.identifier, for: indexPath) as! SongsTableViewCell
-
             cell.songs = viewModel.songs
             return cell
-
-        } else if indexPath.section == 1 {
+        case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: AlbumTableViewCell.identifier, for: indexPath) as! AlbumTableViewCell
-
             cell.album = viewModel.albums
             return cell
-        } else {
+        default:
             let cell = UITableViewCell()
             cell.textLabel?.text = "🎵🎵🎵🎵🎵"
             return cell
         }
     }
+}
+
+// MARK: - UITableViewDelegate
+
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 200
+    }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let title = section == 0 ? "Songs" : "Albums"
         return TableViewHeader(title: title, buttonTitle: "See More>", section: section, target: self, action: #selector(didTapSeeMore(_:)))
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
     }
 
     @objc private func didTapSeeMore(_ sender: UIButton) {
@@ -123,17 +139,5 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             songsListVC.songs = viewModel.songs
             navigationController?.pushViewController(songsListVC, animated: true)
         }
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
-    }
-
-    private func indexPathForSection(_ section: Int) -> IndexPath? {
-        return IndexPath(row: 0, section: section)
     }
 }
