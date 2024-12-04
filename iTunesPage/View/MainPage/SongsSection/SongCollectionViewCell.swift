@@ -82,7 +82,7 @@ class SongCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with track: MusicTrack, index: Int) {
+    func configure(with track: Song, index: Int) {
         songTitleLabel.text = "\(index+1). \(track.trackName)"
         artistNameLabel.text = track.artistName
         songImageView.setImage(from: track.artworkUrl100)

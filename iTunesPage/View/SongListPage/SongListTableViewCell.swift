@@ -85,7 +85,7 @@ class SongListTableViewCell: UITableViewCell {
         heartButtonTappedClosure?()
     }
 
-    func configure(with track: MusicTrack, index: Int) {
+    func configure(with track: Song, index: Int) {
         songNumberLabel.text = "\(index + 1)"
         songTitleLabel.text = track.trackName
         artistNameLabel.text = track.artistName

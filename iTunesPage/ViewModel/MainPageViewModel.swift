@@ -1,5 +1,5 @@
 //
-//  ViewModel.swift
+//  MainPageViewModel.swift
 //  iTunesPage
 //
 //  Created by J oyce on 2024/12/4.
@@ -8,10 +8,10 @@
 import Foundation
 import Combine
 
-class ViewModel {
+class MainPageViewModel {
     private let apiManager = APIManager()
 
-    @Published var songs: [MusicTrack] = []
+    @Published var songs: [Song] = []
     @Published var albums: [Album] = []
     @Published var errorMessage: String?
 

@@ -12,7 +12,7 @@ class APIManager {
     private let songURL = "https://itunes.apple.com/search?term=周杰倫&media=music"
     private let albumURL = "https://itunes.apple.com/search?term=周杰倫&entity=album"
 
-    func fetchSongs(completion: @escaping (Result<[MusicTrack], Error>) -> Void) {
+    func fetchSongs(completion: @escaping (Result<[Song], Error>) -> Void) {
         guard let url = URL(string: songURL) else {
             print("Invalid URL")
             return
@@ -30,8 +30,8 @@ class APIManager {
             }
 
             do {
-                let musicResponse = try JSONDecoder().decode(MusicResponse.self, from: data)
-                completion(.success(musicResponse.results))
+                let songResponse = try JSONDecoder().decode(SongResponse.self, from: data)
+                completion(.success(songResponse.results))
             } catch {
                 completion(.failure(error))
             }
@@ -58,8 +58,8 @@ class APIManager {
             }
 
             do {
-                let musicResponse = try JSONDecoder().decode(AlbumResponse.self, from: data)
-                completion(.success(musicResponse.results))
+                let albumResponse = try JSONDecoder().decode(AlbumResponse.self, from: data)
+                completion(.success(albumResponse.results))
             } catch {
                 completion(.failure(error))
             }

@@ -11,7 +11,7 @@ import Combine
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     private let tableView = UITableView()
-    private var viewModel = ViewModel()
+    private var viewModel = MainPageViewModel()
     private var cancellables: Set<AnyCancellable> = []
 
     override func viewDidLoad() {

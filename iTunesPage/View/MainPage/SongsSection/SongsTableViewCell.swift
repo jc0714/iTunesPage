@@ -13,7 +13,7 @@ class SongsTableViewCell: UITableViewCell {
 
     private let collectionView: UICollectionView
 
-    var songs: [MusicTrack] = [] {
+    var songs: [Song] = [] {
         didSet {
             collectionView.reloadData()
         }
@@ -90,11 +90,6 @@ extension SongsTableViewCell: UICollectionViewDataSource, UICollectionViewDelega
 
         let heartImage = isLiked ? "heart.fill" : "heart"
         cell.heartButton.setImage(UIImage(systemName: heartImage), for: .normal)
-
-//        print("下面這行的愛心被按下了")
-//        print(indexPath.row)
-//        print(songId)
-//        print(n as Any)
     }
 }
 

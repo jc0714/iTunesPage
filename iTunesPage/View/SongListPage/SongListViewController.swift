@@ -13,7 +13,7 @@ import UIKit
 class SongsListViewController: UIViewController {
 
     private var tableView: UITableView!
-    var songs: [MusicTrack] = []
+    var songs: [Song] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
