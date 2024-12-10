@@ -8,12 +8,12 @@
 import Foundation
 import UIKit
 
-import UIKit
-
 class SongsListViewController: UIViewController {
 
     private var tableView: UITableView!
     var songs: [Song] = []
+
+    private var heartBtnManager = HeartBtnManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,12 +53,15 @@ extension SongsListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SongListTableViewCell.identifier, for: indexPath) as! SongListTableViewCell
         
-        cell.configure(with: songs[indexPath.row], index: indexPath.row)
+        let song = songs[indexPath.item]
+        let favoriteSongs = heartBtnManager.getFavoriteSongs()
+        let isFavorite = favoriteSongs.contains(song.trackId)
+        cell.configure(with: song, isFavorite: isFavorite, index: indexPath.row)
 
-        if let favoriteSongs = UserDefaults.standard.array(forKey: HeartBtnManager.favoritesKey) as? [Int],
-           favoriteSongs.contains(songs[indexPath.item].trackId) {
-            cell.heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        }
+//        if let favoriteSongs = UserDefaults.standard.array(forKey: "") as? [Int],
+//           favoriteSongs.contains(songs[indexPath.item].trackId) {
+//            cell.heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+//        }
 
         cell.heartButtonTappedClosure = { [weak self] in
             Task {

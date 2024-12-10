@@ -68,6 +68,8 @@ class MainViewController: UIViewController {
 
         tableView.register(SongsTableViewCell.self, forCellReuseIdentifier: SongsTableViewCell.identifier)
         tableView.register(AlbumTableViewCell.self, forCellReuseIdentifier: AlbumTableViewCell.identifier)
+        // 
+//        tableView.register(TableViewHeader, forCellReuseIdentifier: "TableViewHeader")
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -101,6 +103,7 @@ extension MainViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
+        // enum
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: SongsTableViewCell.identifier, for: indexPath) as! SongsTableViewCell
             cell.songs = viewModel.songs
@@ -117,6 +120,12 @@ extension MainViewController: UITableViewDataSource {
     }
 }
 
+// case eterable 解析錯誤也好用
+enum section {
+    case songs
+    case album
+}
+
 // MARK: - UITableViewDelegate
 
 extension MainViewController: UITableViewDelegate {
@@ -126,6 +135,7 @@ extension MainViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let title = section == 0 ? "Songs" : "Albums"
+        // 可註冊
         return TableViewHeader(title: title, buttonTitle: "See More>", section: section, target: self, action: #selector(didTapSeeMore(_:)))
     }
 
@@ -133,6 +143,7 @@ extension MainViewController: UITableViewDelegate {
         return 50
     }
 
+    // 移到 header
     @objc private func didTapSeeMore(_ sender: UIButton) {
         if sender.tag == 0 {
             let songsListVC = SongsListViewController()

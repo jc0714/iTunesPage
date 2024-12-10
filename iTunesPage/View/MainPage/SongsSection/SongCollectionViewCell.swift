@@ -82,10 +82,14 @@ class SongCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with track: Song, index: Int) {
+    func configure(with track: Song, isFavorite: Bool, index: Int) {
         songTitleLabel.text = "\(index+1). \(track.trackName)"
         artistNameLabel.text = track.artistName
         songImageView.setImage(from: track.artworkUrl100)
+
+        if isFavorite == true {
+            heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        }
     }
 
     override func prepareForReuse() {

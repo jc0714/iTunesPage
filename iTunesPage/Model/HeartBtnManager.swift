@@ -9,10 +9,10 @@ import Foundation
 
 class HeartBtnManager {
 
-    static let favoritesKey = "favoriteSongs"
+    private let favoritesKey = "favoriteSongs"
 
     func getFavoriteSongs() -> [Int] {
-        return UserDefaults.standard.array(forKey: HeartBtnManager.favoritesKey) as? [Int] ?? []
+        return UserDefaults.standard.array(forKey: favoritesKey) as? [Int] ?? []
     }
 
     func isFavorite(songId: Int) -> Bool {
@@ -26,7 +26,7 @@ class HeartBtnManager {
         } else {
             favorites.append(songId)
         }
-        UserDefaults.standard.set(favorites, forKey: HeartBtnManager.favoritesKey)
+        UserDefaults.standard.set(favorites, forKey: favoritesKey)
 
         print(favorites)
     }

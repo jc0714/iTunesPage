@@ -11,6 +11,8 @@ import UIKit
 class SongsTableViewCell: UITableViewCell {
     static let identifier = "SongsTableViewCell"
 
+    private let heartBtnManager = HeartBtnManager()
+
     private let collectionView: UICollectionView
 
     var songs: [Song] = [] {
@@ -60,13 +62,20 @@ extension SongsTableViewCell: UICollectionViewDataSource, UICollectionViewDelega
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // no ! guard let
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SongCollectionViewCell.identifier, for: indexPath) as! SongCollectionViewCell
-        cell.configure(with: songs[indexPath.item], index: indexPath.row)
+        // guard let 確定有值
+        let song = songs[indexPath.item]
+        let favoriteSongs = heartBtnManager.getFavoriteSongs()
+        let isFavorite = favoriteSongs.contains(song.trackId)
+        cell.configure(with: song, isFavorite: isFavorite, index: indexPath.row)
 
-        if let favoriteSongs = UserDefaults.standard.array(forKey: HeartBtnManager.favoritesKey) as? [Int],
-           favoriteSongs.contains(songs[indexPath.item].trackId) {
-            cell.heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        }
+        // getFavoriteSongs
+        // 不要在這更動 image
+//        let favoriteSongs = heartBtnManager.getFavoriteSongs()
+//        if favoriteSongs.contains(songs[indexPath.item].trackId) {
+//            cell.heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+//        }
 
         cell.heartButtonTappedClosure = { [weak self] in
             Task {

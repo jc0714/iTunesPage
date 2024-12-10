@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Combine
+// 這裡其實不需要 import Combine
 
 class MainPageViewModel {
     private let apiManager = APIManager()
